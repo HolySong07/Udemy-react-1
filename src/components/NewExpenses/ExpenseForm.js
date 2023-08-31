@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
 	let [title1, setTitle] = useState("");
 	let [amount1, setAmount] = useState("");
 	let [date1, setDate] = useState("");
@@ -21,18 +21,29 @@ const ExpenseForm = () => {
 
 	let submitHandler = (e) => {
 		e.preventDefault();
+
 		let expenseData = {
 			title: title1,
 			amount: amount1,
 			date: new Date(date1)
 		};
 
+		props.onSaveExpenseData(expenseData);
+
 		setTitle("");
 		setAmount("");
 		setDate("");
-		console.log(expenseData);
+		
 	
 	};
+
+	const hideForm = () => {
+		props.cancel(false);
+	}
+
+
+
+	
 
 	return (
 		<form onSubmit={submitHandler}>
@@ -50,6 +61,7 @@ const ExpenseForm = () => {
 					<input type="date" min="2019-01-01" value={date1} max="2022-12-31" onChange={dateChangeHnadler}/>
 				</div>
 				<div className="new-expense__actions">
+					<button onClick={hideForm}>Cancel</button>
 					<button type="Submit">Add Expense</button>
 				</div>
 
